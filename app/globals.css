@@ -79,7 +79,7 @@ button { cursor: pointer; }
   justify-content: flex-start;
   align-items: center;
   gap: 30px;
-  margin: 0 0 10px;
+  margin: 0 0 20px;
 }
 .option-a .example-selector-option {
   height: 28px;
@@ -183,7 +183,7 @@ button { cursor: pointer; }
 
 .pane-grid {
   display: grid;
-  grid-template-columns: 18fr 18fr 64fr;
+  grid-template-columns: 12fr 12fr 76fr;
   gap: 12px;
   /* Shared viewport strip height: 340px ≈ 2:1 hero aspect at expanded (~680px) width */
   --option-a-shot-height: 340px;
@@ -191,8 +191,9 @@ button { cursor: pointer; }
   transition: grid-template-columns .3s ease;
   align-items: stretch;
 }
-.pane-grid[data-selected="legacy"] { grid-template-columns: 64fr 12fr 24fr; }
-.pane-grid[data-selected="shipped"] { grid-template-columns: 12fr 64fr 24fr; }
+.pane-grid[data-selected="legacy"] { grid-template-columns: 76fr 12fr 12fr; }
+.pane-grid[data-selected="shipped"] { grid-template-columns: 12fr 76fr 12fr; }
+.pane-grid[data-selected="direction"] { grid-template-columns: 12fr 12fr 76fr; }
 .pane-grid .pane {
   position: relative;
   display: flex;
