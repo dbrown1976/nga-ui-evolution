@@ -1,6 +1,14 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { IBM_Plex_Sans } from 'next/font/google'
 import './globals.css'
+
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-ibm-plex-sans',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'NGA Reflection · Interaction Prototype',
@@ -28,8 +36,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: 'light dark',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f7f5ef' },
-    { media: '(prefers-color-scheme: dark)', color: '#f7f5ef' },
+    { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
+    { media: '(prefers-color-scheme: dark)', color: '#FFFFFF' },
   ],
 }
 
@@ -39,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={ibmPlexSans.variable}>
       <body className="antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

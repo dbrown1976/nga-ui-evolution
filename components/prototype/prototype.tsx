@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { ArrowLeft, ArrowRight, Check, ChevronDown, Eye, GripVertical, Image as ImageIcon, Info, MoreHorizontal, Plus, Sparkles, Upload, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -32,8 +32,48 @@ export const CONTENT: DummyContent = {
 export const STATES: { id: StateId; label: string; eyebrow: string; accent: string }[] = [
   { id: 'legacy', label: 'Legacy', eyebrow: '01', accent: '#8e6b55' },
   { id: 'shipped', label: 'NGA · Shipped', eyebrow: '02', accent: '#42768a' },
-  { id: 'direction', label: 'Design direction', eyebrow: '03', accent: '#a8d3c2' },
+  { id: 'direction', label: 'Final', eyebrow: '03', accent: '#a8d3c2' },
 ]
+
+/** Option A comparison chrome — quiet portfolio annotation (copy only). */
+const OPTION_A_PANES: { id: StateId; title: string; meta: string; metaDetail: string | null; tabLabel: string }[] = [
+  { id: 'legacy', title: '01 · Shipped 2018', meta: 'Authoring v1.0', metaDetail: null, tabLabel: '01 · Shipped 2018' },
+  { id: 'shipped', title: '02 · Shipped 2026', meta: 'Authoring v2.0', metaDetail: 'Existing CMS shell', tabLabel: '02 · Shipped 2026' },
+  { id: 'direction', title: '03 · Approved direction', meta: 'Authoring workbench', metaDetail: 'Reworked CMS shell', tabLabel: '03 · Approved direction' },
+]
+
+type ExampleId = 'hero' | 'blog' | 'recipe'
+
+const OPTION_A_EXAMPLES: { id: ExampleId; label: string }[] = [
+  { id: 'hero', label: 'Simple hero banner' },
+  { id: 'blog', label: 'Structured blog content' },
+  { id: 'recipe', label: 'Composable recipe page' },
+]
+
+/** Per-example pane assets (three examples × three panes). */
+const OPTION_A_EXAMPLE_SHOTS: Record<ExampleId, Record<StateId, string>> = {
+  hero: {
+    legacy: '/images/1-hero-banner-legacy.png',
+    shipped: '/images/2-hero-banner-shipped.png',
+    direction: '/images/3-hero-banner-final.png',
+  },
+  blog: {
+    legacy: '/images/1-blog-legacy.png',
+    shipped: '/images/2-blog-shipped.png',
+    direction: '/images/3-blog-final.png',
+  },
+  recipe: {
+    legacy: '/images/1-recipe-legacy.png',
+    shipped: '/images/2-recipe-shipped.png',
+    direction: '/images/3-recipe-final.png',
+  },
+}
+
+function paneClass(state: StateId) {
+  if (state === 'legacy') return 'dummy-legacy'
+  if (state === 'shipped') return 'dummy-shipped'
+  return 'dummy-direction'
+}
 
 export function stateLabel(id: StateId) {
   return STATES.find((state) => state.id === id)?.label ?? id
@@ -59,35 +99,71 @@ export function DummyAuthoringUI({ state, focalPoint = false }: { state: StateId
 
 function FocalMark() { return <span className="focal-mark" aria-label="Temporary focal point" /> }
 
-function LegacyUI({ focalPoint }: { focalPoint: boolean }) {
-  return <section className="dummy-ui dummy-legacy" aria-label="Legacy authoring interface">
-    <header className="legacy-top"><span className="legacy-logo">content<span>desk</span></span><span>Workspace / Spring 2025</span><button aria-label="More options"><MoreHorizontal /></button></header>
-    <div className="legacy-toolbar"><button>‹ Back to items</button><span>Page ID: MOR-2048</span><button>Save draft</button></div>
-    <div className="legacy-body">
-      <div className="legacy-title-row"><div><small>EDIT CONTENT ITEM</small><h2>{CONTENT.title}</h2></div><span className="legacy-status">DRAFT</span></div>
-      <div className="legacy-form"><div className="legacy-main"><div className="legacy-panel"><Field label="Product name" value={CONTENT.product} />{focalPoint && <FocalMark />}<Field label="Description" value={CONTENT.description} className="field-tall" /><Field label="Image" value={CONTENT.imageLabel} hint="JPG, PNG or GIF · Max 10MB" /><button className="legacy-upload"><Upload /> Choose file</button></div><div className="legacy-panel"><h3>Details</h3><Field label="Category" value={CONTENT.category} /><Field label="Collection" value={CONTENT.collection} /><Field label="URL slug" value="morrow-carryall-02" /></div></div><aside className="legacy-preview"><h3>Preview</h3><AssetPreview variant="legacy" /><small>Last saved: {CONTENT.updated}</small></aside></div>
-      <footer className="legacy-footer"><button>Cancel</button><button className="legacy-primary">Save changes</button></footer>
-    </div>
+function GenerationShot({ src, alt, className, focalPoint }: { src: string | null; alt: string; className: string; focalPoint: boolean }) {
+  return <section className={cn('dummy-ui generation-shot-wrap', className, !src && 'generation-placeholder')} aria-label={alt}>
+    {src ? <img className="generation-shot" src={src} alt="" /> : <div className="generation-shot generation-shot-blank" aria-hidden="true" />}
+    {focalPoint && <FocalMark />}
   </section>
+}
+
+function LegacyUI({ focalPoint }: { focalPoint: boolean }) {
+  return <GenerationShot className="dummy-legacy" src="/images/1-hero-banner-legacy.png" alt="Legacy authoring interface" focalPoint={focalPoint} />
 }
 
 function ShippedUI({ focalPoint }: { focalPoint: boolean }) {
-  return <section className="dummy-ui dummy-shipped" aria-label="NGA shipped authoring interface">
-    <header className="shipped-top"><div className="shipped-brand"><span className="brand-mark">N</span><span>Authoring</span></div><nav><span>Content</span><span>Media</span><span>Settings</span></nav><div className="avatar">AM</div></header>
-    <div className="shipped-breadcrumb"><span>Spring 2025</span><b>/</b><span>Content items</span><b>/</b><strong>{CONTENT.title}</strong></div>
-    <div className="shipped-body"><div className="shipped-heading"><div><span className="section-kicker">PRODUCT STORY · EDITING</span><h2>{CONTENT.title}</h2><p>Build and publish a complete content story.</p></div><div className="shipped-actions"><span className="status-pill"><Check /> {CONTENT.status}</span><button className="button-ghost">Preview</button><button className="button-solid">Publish</button></div></div>
-      <div className="shipped-grid"><div className="shipped-column"><div className="shipped-card"><div className="card-heading"><div><h3>Content details</h3><p>Give this story a clear, useful name.</p></div><Info /></div><Field label="Product name" value={CONTENT.product} />{focalPoint && <FocalMark />}<Field label="Description" value={CONTENT.description} className="field-tall" /></div><div className="shipped-card"><div className="card-heading"><div><h3>Classification</h3><p>Help people find this content later.</p></div></div><div className="field-row"><Field label="Category" value={CONTENT.category} /><Field label="Collection" value={CONTENT.collection} /></div></div></div><div className="shipped-column"><div className="shipped-card media-card"><div className="card-heading"><div><h3>Featured image</h3><p>Use a landscape image at least 1600px wide.</p></div><button aria-label="Media options"><MoreHorizontal /></button></div><AssetPreview variant="shipped" /><div className="media-meta"><span>{CONTENT.imageLabel}</span><small>2400 × 1600 · 1.8 MB</small></div></div><div className="shipped-card status-card"><div><h3>Publishing</h3><p>Visible on the Spring 2025 site.</p></div><span className="toggle-on"><span /></span></div></div></div>
-    </div>
-  </section>
+  return <GenerationShot className="dummy-shipped" src="/images/2-hero-banner-shipped.png" alt="NGA shipped authoring interface" focalPoint={focalPoint} />
 }
 
 function DirectionUI({ focalPoint }: { focalPoint: boolean }) {
-  return <section className="dummy-ui dummy-direction" aria-label="Design direction authoring interface">
-    <aside className="direction-sidebar"><div className="direction-logo"><span>n</span> northstar</div><div className="direction-rail"><span className="rail-active"><GripVertical /> Library</span><span>Collections</span><span>Media</span></div><div className="direction-help"><Sparkles /><span>Need a hand?<small>Open guidance</small></span></div></aside>
-    <div className="direction-main"><header className="direction-header"><div><span className="direction-breadcrumb">LIBRARY / SPRING 2025 / STORY</span><h2>{CONTENT.title}</h2></div><div className="direction-header-actions"><span className="saved-dot"><Check /> Saved</span><button aria-label="More options"><MoreHorizontal /></button></div></header>
-      <div className="direction-content"><div className="direction-intro"><div><span className="section-kicker">STORY BUILDER</span><h3>Shape the story behind the product.</h3></div><span className="direction-step">02 <i>/ 04</i></span></div><div className="direction-layout"><div className="direction-editor"><div className="direction-card"><div className="direction-card-top"><div><span className="card-index">01</span><h4>Identity</h4></div><Check /></div><Field label="Product name" value={CONTENT.product} />{focalPoint && <FocalMark />}<div className="direction-inline"><Field label="Category" value={CONTENT.category} /><Field label="Collection" value={CONTENT.collection} /></div></div><div className="direction-card direction-description"><div className="direction-card-top"><div><span className="card-index">02</span><h4>Story</h4></div><span className="card-required">Required</span></div><Field label="Description" value={CONTENT.description} className="field-tall" /><div className="writing-tip"><Sparkles /><span><b>A little more context?</b><small>Stories with a point of view perform better.</small></span></div></div></div><div className="direction-preview"><div className="preview-label"><span>LIVE PREVIEW</span><span className="preview-live"><span /> Autosaved</span></div><AssetPreview variant="direction" /><div className="preview-product"><span>{CONTENT.category}</span><h4>{CONTENT.product}</h4><p>{CONTENT.description}</p></div><div className="preview-footer"><span>{CONTENT.updated}</span><button className="button-solid">Continue <ArrowRight /></button></div></div></div></div>
+  return <GenerationShot className="dummy-direction" src="/images/3-hero-banner-final.png" alt="Final authoring interface" focalPoint={focalPoint} />
+}
+
+function OptionAExampleShot({ state, example, focalPoint }: { state: StateId; example: ExampleId; focalPoint: boolean }) {
+  const src = OPTION_A_EXAMPLE_SHOTS[example][state]
+  const labels = { legacy: 'Legacy', shipped: 'NGA shipped', direction: 'Approved direction' } as const
+  return <GenerationShot className={paneClass(state)} src={src} alt={`${labels[state]} — ${OPTION_A_EXAMPLES.find((e) => e.id === example)?.label ?? example}`} focalPoint={focalPoint} />
+}
+
+function OptionAExampleSelector({ example, setExample }: { example: ExampleId; setExample: (id: ExampleId) => void }) {
+  const index = OPTION_A_EXAMPLES.findIndex((item) => item.id === example)
+  const selectAt = (i: number) => {
+    const next = OPTION_A_EXAMPLES[(i + OPTION_A_EXAMPLES.length) % OPTION_A_EXAMPLES.length]
+    setExample(next.id)
+    requestAnimationFrame(() => {
+      const el = document.querySelector(`.option-a .example-selector-option[data-example="${next.id}"]`) as HTMLButtonElement | null
+      el?.focus()
+    })
+  }
+  const onKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'ArrowRight') {
+      event.preventDefault()
+      selectAt(index + 1)
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      selectAt(index - 1)
+    } else if (event.key === '1' || event.key === '2' || event.key === '3') {
+      event.preventDefault()
+      selectAt(Number(event.key) - 1)
+    }
+  }
+  return (
+    <div className="example-selector" role="tablist" aria-label="Content example" onKeyDown={onKeyDown}>
+      {OPTION_A_EXAMPLES.map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          role="tab"
+          data-example={item.id}
+          aria-selected={example === item.id}
+          tabIndex={example === item.id ? 0 : -1}
+          className={cn('example-selector-option', { selected: example === item.id })}
+          onClick={() => setExample(item.id)}
+        >
+          {item.label}
+        </button>
+      ))}
     </div>
-  </section>
+  )
 }
 
 function ModeToggle({ mode, setMode }: { mode: PreviewMode; setMode: (mode: PreviewMode) => void }) {
@@ -103,18 +179,57 @@ function PreviewFrame({ mode, children }: { mode: PreviewMode; children: React.R
   return <div className={cn('preview-frame-wrap', `preview-${mode}`)}><div className={cn('preview-canvas', `viewport-${mode}`)} style={{ '--preview-width': `${width}px` } as React.CSSProperties}>{children}</div></div>
 }
 
-function CarouselFallback({ selected, setSelected, focalPoint }: { selected: StateId; setSelected: (state: StateId) => void; focalPoint: boolean }) {
-  const index = STATES.findIndex((s) => s.id === selected)
-  const move = (direction: number) => setSelected(STATES[(index + direction + STATES.length) % STATES.length].id)
+function CarouselFallback({ selected, setSelected, focalPoint, tabs, renderPane }: { selected: StateId; setSelected: (state: StateId) => void; focalPoint: boolean; tabs?: { id: StateId; eyebrow: string; label: string }[]; renderPane?: (state: StateId) => React.ReactNode }) {
+  const items = tabs ?? STATES.map((state) => ({ id: state.id, eyebrow: state.eyebrow, label: state.label }))
+  const index = items.findIndex((s) => s.id === selected)
+  const move = (direction: number) => setSelected(items[(index + direction + items.length) % items.length].id)
   useEffect(() => { const onKey = (event: KeyboardEvent) => { if (event.key === 'ArrowLeft') move(-1); if (event.key === 'ArrowRight') move(1) }; window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey) })
-  return <div className="carousel-fallback"><div className="carousel-tabs">{STATES.map((state) => <button key={state.id} className={cn({ active: state.id === selected })} onClick={() => setSelected(state.id)}><span>{state.eyebrow}</span>{state.label}</button>)}</div><div className="carousel-stage"><button className="carousel-arrow" onClick={() => move(-1)} aria-label="Previous state"><ArrowLeft /></button><div className="carousel-ui"><DummyAuthoringUI state={selected} focalPoint={focalPoint} /></div><button className="carousel-arrow" onClick={() => move(1)} aria-label="Next state"><ArrowRight /></button></div></div>
+  return <div className="carousel-fallback"><div className="carousel-tabs">{items.map((state) => <button key={state.id} className={cn({ active: state.id === selected })} onClick={() => setSelected(state.id)}><span>{state.eyebrow}</span>{state.label}</button>)}</div><div className="carousel-stage"><button className="carousel-arrow" onClick={() => move(-1)} aria-label="Previous state"><ArrowLeft /></button><div className="carousel-ui">{renderPane ? renderPane(selected) : <DummyAuthoringUI state={selected} focalPoint={focalPoint} />}</div><button className="carousel-arrow" onClick={() => move(1)} aria-label="Next state"><ArrowRight /></button></div></div>
 }
 
 export function OptionA({ mode, focalPoint }: { mode: PreviewMode; focalPoint: boolean }) {
   const [selected, setSelected] = useState<StateId>('direction')
+  const [example, setExample] = useState<ExampleId>('hero')
   const mobile = mode !== 'desktop'
-  const proportions = selected === 'direction' ? '18 / 18 / 64' : selected === 'legacy' ? '64 / 12 / 24' : '12 / 64 / 24'
-  return <div className="option-component option-a"><div className="option-a-desktop" data-mobile={mobile}><div className="pane-grid" data-selected={selected}>{STATES.map((state) => <button key={state.id} className={cn('pane', `pane-${state.id}`, { selected: selected === state.id })} onClick={() => setSelected(state.id)}><div className="pane-label"><span>{state.eyebrow}</span><b>{state.label}</b><i>{selected === state.id ? 'Inspecting' : 'Select'}</i></div><div className="pane-viewport"><DummyAuthoringUI state={state.id} focalPoint={focalPoint} /></div></button>)}</div></div><div className="option-mobile"><CarouselFallback selected={selected} setSelected={setSelected} focalPoint={focalPoint} /></div><DebugReadout mode={mode} width={mode === 'desktop' ? 1120 : mode === 'tablet' ? 760 : 390} selected={selected} interaction={mobile ? 'sequential comparison' : 'expanding three-pane'} proportions={proportions} /></div>
+  const carouselTabs = OPTION_A_PANES.map((pane) => ({ id: pane.id, eyebrow: pane.title.slice(0, 2), label: pane.tabLabel.replace(/^\d{2} · /, '') }))
+  const renderPane = (state: StateId) => <OptionAExampleShot state={state} example={example} focalPoint={focalPoint} />
+  return (
+    <div className="option-component option-a">
+      <OptionAExampleSelector example={example} setExample={setExample} />
+      <div className="option-a-desktop" data-mobile={mobile}>
+        <div className="pane-comparison">
+        <div className="pane-grid" data-selected={selected} data-example={example}>
+          {OPTION_A_PANES.map((pane) => (
+            <button
+              key={pane.id}
+              type="button"
+              className={cn('pane', `pane-${pane.id}`, { selected: selected === pane.id })}
+              onClick={() => setSelected(pane.id)}
+              aria-pressed={selected === pane.id}
+              aria-label={pane.tabLabel}
+            >
+              <div className="pane-label">
+                <span className="pane-label-title">{pane.title}</span>
+                <span className="pane-label-meta">
+                  {pane.meta}
+                  {pane.metaDetail && (
+                    <span className="pane-label-meta-detail"> · {pane.metaDetail}</span>
+                  )}
+                </span>
+              </div>
+              <div className="pane-viewport">
+                <OptionAExampleShot key={`${example}-${pane.id}`} state={pane.id} example={example} focalPoint={focalPoint} />
+              </div>
+            </button>
+          ))}
+        </div>
+        </div>
+      </div>
+      <div className="option-mobile">
+        <CarouselFallback selected={selected} setSelected={setSelected} focalPoint={focalPoint} tabs={carouselTabs} renderPane={renderPane} />
+      </div>
+    </div>
+  )
 }
 
 export function OptionB({ mode, focalPoint }: { mode: PreviewMode; focalPoint: boolean }) {
