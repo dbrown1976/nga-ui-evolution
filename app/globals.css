@@ -188,6 +188,13 @@ button { cursor: pointer; }
 .option-a .generation-shot-wrap {
   animation: option-a-example-fade .15s ease;
 }
+/* Scale only the selected evidence image down slightly to reveal more of the source. */
+.option-a .pane.selected .generation-shot {
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  object-position: left top;
+}
 @keyframes option-a-example-fade {
   from { opacity: 0; }
   to { opacity: 1; }
