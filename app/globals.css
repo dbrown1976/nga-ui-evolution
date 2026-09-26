@@ -291,9 +291,9 @@ button { cursor: pointer; }
   height: 100%;
   min-height: 0;
   object-fit: cover;
-  object-position: left center;
+  object-position: left top;
 }
-.dummy-direction .generation-shot { object-position: left 38%; }
+.dummy-direction .generation-shot { object-position: left top; }
 .option-a .generation-placeholder,
 .option-a .generation-shot-blank {
   width: 100%;
@@ -313,7 +313,7 @@ button { cursor: pointer; }
   height: 100%;
   min-height: 0;
   object-fit: cover;
-  object-position: left center;
+  object-position: left top;
 }
 .carousel-ui .generation-shot-blank,
 .carousel-ui .generation-placeholder {
