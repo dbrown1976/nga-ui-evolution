@@ -186,7 +186,7 @@ button { cursor: pointer; }
   grid-template-columns: 12fr 12fr 76fr;
   gap: 12px;
   /* Shared viewport strip height: 340px ≈ 2:1 hero aspect at expanded (~680px) width */
-  --option-a-shot-height: 340px;
+  --option-a-shot-height: 600px;
   min-height: calc(var(--option-a-shot-height) + 40px);
   transition: grid-template-columns .3s ease;
   align-items: stretch;
