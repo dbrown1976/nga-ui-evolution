@@ -36,11 +36,19 @@ button { cursor: pointer; }
 .intro-note h2 { margin: 8px 0 12px; max-width: 620px; font-size: 32px; font-weight: 500; letter-spacing: -.04em; }
 .intro-note p { max-width: 630px; margin: 0; color: var(--muted-foreground); line-height: 1.6; font-size: 14px; }
 .prototype-option { margin-bottom: 104px; }
+.prototype-option:has(.option-a) { overflow: visible; }
 .option-header { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: end; margin-bottom: 22px; }
 .option-title { display: flex; align-items: baseline; gap: 15px; }
 .option-title h2 { margin: 0; font-size: 27px; font-weight: 500; letter-spacing: -.04em; }
 .option-header p { margin: 0; color: var(--muted-foreground); font-size: 13px; line-height: 1.5; max-width: 420px; }
 .preview-frame-wrap { overflow: hidden; padding: 18px 0 0; background: #FFFFFF; border: 1px solid var(--border); container-type: inline-size; }
+/* Option A width experiment: let the evidence break beyond the 1120px case-study rail. */
+.prototype-option:has(.option-a) .preview-frame-wrap {
+  width: min(1500px, calc(100vw - 40px));
+  max-width: none;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
 .preview-canvas { width: min(var(--preview-width), 100%); min-width: 0; max-width: 100%; overflow: hidden; margin: 0 auto; padding: 24px; transition: width .35s ease; container-type: inline-size; background: #FFFFFF; }
 .option-component { min-width: 0; }
 .debug-readout { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; color: var(--muted-foreground); font-family: monospace; font-size: 10px; }
