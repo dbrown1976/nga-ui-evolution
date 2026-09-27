@@ -198,7 +198,7 @@ button { cursor: pointer; }
   grid-template-columns: 12fr 12fr 76fr;
   gap: 12px;
   /* Shared viewport strip height: all three generations stay equal-height while widths expand/collapse. */
-  --option-a-shot-height: 600px;
+  --option-a-shot-height: 720px;
   min-height: calc(var(--option-a-shot-height) + 40px);
   transition: grid-template-columns .3s ease;
   align-items: stretch;
@@ -273,9 +273,9 @@ button { cursor: pointer; }
   top: auto;
   left: auto;
   width: 100%;
-  height: var(--option-a-shot-height, 600px);
-  min-height: var(--option-a-shot-height, 600px);
-  max-height: var(--option-a-shot-height, 600px);
+  height: var(--option-a-shot-height, 720px);
+  min-height: var(--option-a-shot-height, 720px);
+  max-height: var(--option-a-shot-height, 720px);
   overflow: hidden;
   background: transparent;
 }
