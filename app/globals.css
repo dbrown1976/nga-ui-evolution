@@ -304,6 +304,9 @@ button { cursor: pointer; }
 .option-f-variant .option-a .pane-comparison {
   background: #08112b;
 }
+.option-f-variant .option-a .pane-viewport {
+  box-shadow: none;
+}
 .option-a .pane-label-title {
   color: #242A2E;
   font-size: 12px;
