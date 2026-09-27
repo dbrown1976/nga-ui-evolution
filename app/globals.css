@@ -201,11 +201,12 @@ button { cursor: pointer; }
 }
 .option-f-variant .option-c-example-nav .example-selector-option {
   border: 1px solid #c6c6c6;
-  background: transparent;
+  border-radius: 16px;
+  background: #ffffff;
   color: #002c42;
 }
 .option-f-variant .option-c-example-nav .example-selector-option:hover {
-  background: rgb(0 44 66 / 6%);
+  background: #ffffff;
 }
 .option-f-variant .option-c-example-nav .example-selector-option.selected {
   border-color: #08112b;
@@ -214,11 +215,11 @@ button { cursor: pointer; }
 }
 .option-f-variant .option-c-expand-control {
   border-color: #c6c6c6;
-  background: transparent;
+  background: #ffffff;
   color: #002c42;
 }
 .option-f-variant .option-c-expand-control:hover {
-  background: rgb(0 44 66 / 6%);
+  background: #ffffff;
 }
 .option-f-variant .option-a .pane .pane-label .pane-label-title {
   color: #ffffff;
