@@ -131,6 +131,25 @@ button { cursor: pointer; }
 .option-c-expand-control:hover { background: #F4F4F4; }
 .option-c-expand-control:focus-visible { outline: 2px solid #525252; outline-offset: 2px; }
 .option-c-expand-control svg { width: 14px; height: 14px; }
+
+/* Option D: example selection and viewer sizing share one control row. */
+.option-d-controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 8px;
+}
+.option-d-controls .option-c-example-nav {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+.option-d-controls .option-c-expand-control {
+  flex: 0 0 auto;
+}
+.prototype-option:has(.option-d-variant) .preview-frame-wrap {
+  padding-top: 8px;
+}
 .preview-canvas { width: min(var(--preview-width), 100%); min-width: 0; max-width: 100%; overflow: hidden; margin: 0 auto; padding: 24px; transition: width .35s ease; container-type: inline-size; background: #FFFFFF; }
 .option-component { min-width: 0; }
 .debug-readout { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; color: var(--muted-foreground); font-family: monospace; font-size: 10px; }
