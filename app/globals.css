@@ -299,7 +299,7 @@ button { cursor: pointer; }
   border: 0;
   border-radius: 8px;
 }
-.option-a.option-f-variant .pane-comparison {
+.option-f-variant .option-a .pane-comparison {
   background: #08112b;
 }
 .option-a .pane-label-title {
