@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
-import { ArrowLeft, ArrowRight, Check, ChevronDown, Eye, GripVertical, Image as ImageIcon, Info, MoreHorizontal, Plus, Sparkles, Upload, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, ChevronDown, Eye, GripVertical, Image as ImageIcon, Info, Maximize2, Minimize2, MoreHorizontal, Plus, Sparkles, Upload, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export type StateId = 'legacy' | 'shipped' | 'direction'
@@ -268,10 +268,30 @@ function OptionB(props: { mode: PreviewMode; focalPoint: boolean }) {
   return <ThreePaneView {...props} layout="contained" />
 }
 
+function OptionC(props: { mode: PreviewMode; focalPoint: boolean }) {
+  const [expanded, setExpanded] = useState(false)
+
+  return (
+    <div className={cn('option-c-shell', { 'is-expanded': expanded })}>
+      <button
+        type="button"
+        className="option-c-expand-control"
+        onClick={() => setExpanded((value) => !value)}
+        aria-expanded={expanded}
+        aria-label={expanded ? 'Collapse comparison' : 'Expand comparison'}
+      >
+        {expanded ? <Minimize2 aria-hidden="true" /> : <Maximize2 aria-hidden="true" />}
+        <span>{expanded ? 'Collapse' : 'Expand'}</span>
+      </button>
+      <ThreePaneView {...props} layout="contained" />
+    </div>
+  )
+}
+
 export function PrototypePage() {
   const [mode, setMode] = useState<PreviewMode>('desktop')
   const [focalPoint, setFocalPoint] = useState(false)
-  return <main className="prototype-page"><header className="prototype-header"><div className="prototype-kicker"><span className="kicker-rule" /> Interaction prototype <span>·</span> NGA reflection</div><div className="prototype-heading"><div><h1>Two ways to place the three-pane view.</h1><p>Testing the same three-pane comparison as a breakout treatment and within the portfolio grid.</p></div><div className="prototype-meta"><span>Prototype 01</span><span>September 2026</span></div></div><div className="prototype-controls"><ModeToggle mode={mode} setMode={setMode} /><label className="focal-toggle"><input type="checkbox" checked={focalPoint} onChange={(event) => setFocalPoint(event.target.checked)} /><span className="toggle-track"><Eye /></span> Show focal point</label><span className="control-note">Controls are testing-only · component width: {mode === 'desktop' ? '1120' : mode === 'tablet' ? '760' : '390'}px</span></div></header><section className="intro-note"><div className="intro-number">01</div><div><span className="section-kicker">SHARED TEST CONTENT</span><h2>One authoring task, three moments in its life.</h2><p>Both variants use the same content examples, screenshots and interaction model. Only the relationship to the portfolio grid changes.</p></div></section><PrototypeOption id="A" title="Three-pane view, break the grid" description="The locked three-pane interaction breaks beyond the portfolio rail so the selected evidence remains large enough to inspect." render={(props) => <OptionA {...props} />} mode={mode} focalPoint={focalPoint} /><PrototypeOption id="B" title="Three-pane view, within the grid" description="The same interaction, images and 12 / 12 / 76 split constrained to the portfolio’s existing 1120px content rail." render={(props) => <OptionB {...props} />} mode={mode} focalPoint={focalPoint} /><footer className="handoff"><div><span className="section-kicker">HANDOFF CHECKLIST</span><h2>Portable by design.</h2></div><div className="handoff-grid"><p><b>Copy the selected component</b><span>One Option file, the shared types/data, and the scoped stylesheet.</span></p><p><b>Keep the harness out</b><span>Preview sizing, readouts, focal-point tooling and labels stay in this prototype.</span></p><p><b>Bring your real data</b><span>Replace the dummy content contract with the case study&apos;s three UI renderers and assets.</span></p></div></footer></main>
+  return <main className="prototype-page"><header className="prototype-header"><div className="prototype-kicker"><span className="kicker-rule" /> Interaction prototype <span>·</span> NGA reflection</div><div className="prototype-heading"><div><h1>Three ways to place the three-pane view.</h1><p>Testing the same three-pane comparison as a breakout treatment and within the portfolio grid.</p></div><div className="prototype-meta"><span>Prototype 01</span><span>September 2026</span></div></div><div className="prototype-controls"><ModeToggle mode={mode} setMode={setMode} /><label className="focal-toggle"><input type="checkbox" checked={focalPoint} onChange={(event) => setFocalPoint(event.target.checked)} /><span className="toggle-track"><Eye /></span> Show focal point</label><span className="control-note">Controls are testing-only · component width: {mode === 'desktop' ? '1120' : mode === 'tablet' ? '760' : '390'}px</span></div></header><section className="intro-note"><div className="intro-number">01</div><div><span className="section-kicker">SHARED TEST CONTENT</span><h2>One authoring task, three moments in its life.</h2><p>All three variants use the same content examples, screenshots and interaction model. Only the relationship to the portfolio grid changes.</p></div></section><PrototypeOption id="A" title="Three-pane view, break the grid" description="The locked three-pane interaction breaks beyond the portfolio rail so the selected evidence remains large enough to inspect." render={(props) => <OptionA {...props} />} mode={mode} focalPoint={focalPoint} /><PrototypeOption id="B" title="Three-pane view, within the grid" description="The same interaction, images and 12 / 12 / 76 split constrained to the portfolio’s existing 1120px content rail." render={(props) => <OptionB {...props} />} mode={mode} focalPoint={focalPoint} /><PrototypeOption id="C" title="Three-pane view, expandable" description="Starts within the 1120px portfolio rail, then expands in place to the breakout width for closer inspection." render={(props) => <OptionC {...props} />} mode={mode} focalPoint={focalPoint} /><footer className="handoff"><div><span className="section-kicker">HANDOFF CHECKLIST</span><h2>Portable by design.</h2></div><div className="handoff-grid"><p><b>Copy the selected component</b><span>One Option file, the shared types/data, and the scoped stylesheet.</span></p><p><b>Keep the harness out</b><span>Preview sizing, readouts, focal-point tooling and labels stay in this prototype.</span></p><p><b>Bring your real data</b><span>Replace the dummy content contract with the case study&apos;s three UI renderers and assets.</span></p></div></footer></main>
 }
 
 function PrototypeOption({ id, title, description, render, mode, focalPoint }: { id: string; title: string; description: string; render: (props: { mode: PreviewMode; focalPoint: boolean }) => React.ReactNode; mode: PreviewMode; focalPoint: boolean }) {
