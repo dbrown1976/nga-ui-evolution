@@ -350,7 +350,7 @@ button { cursor: pointer; }
   -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--option-a-fade-inset)), transparent);
   mask-image: linear-gradient(to right, #000 calc(100% - var(--option-a-fade-inset)), transparent);
   transition: --option-a-fade-inset .15s ease;
-  cursor: zoom-in;
+  cursor: pointer;
 }
 .option-a .pane-legacy:not(.selected):hover .pane-viewport,
 .option-a .pane-shipped:not(.selected):hover .pane-viewport,
