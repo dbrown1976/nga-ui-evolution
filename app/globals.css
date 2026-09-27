@@ -53,6 +53,56 @@ button { cursor: pointer; }
   width: 100%;
   max-width: none;
 }
+
+/* Option C starts contained and expands the same shared three-pane view in place. */
+.prototype-option:has(.option-c-shell) {
+  overflow: visible;
+}
+.prototype-option:has(.option-c-shell) .preview-frame-wrap {
+  transition: width .35s ease, max-width .35s ease;
+}
+.prototype-option:has(.option-c-shell.is-expanded) .preview-frame-wrap {
+  width: min(1500px, calc(100vw - 40px));
+  max-width: none;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.prototype-option:has(.option-c-shell.is-expanded) .preview-canvas {
+  width: 100%;
+  max-width: none;
+}
+.option-c-shell {
+  position: relative;
+}
+.option-c-expand-control {
+  position: absolute;
+  z-index: 10;
+  top: 2px;
+  right: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 9px;
+  border: 1px solid #C6C6C6;
+  border-radius: 4px;
+  background: #FFFFFF;
+  color: #393939;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.option-c-expand-control:hover {
+  background: #F4F4F4;
+}
+.option-c-expand-control:focus-visible {
+  outline: 2px solid #525252;
+  outline-offset: 2px;
+}
+.option-c-expand-control svg {
+  width: 14px;
+  height: 14px;
+}
 .preview-canvas { width: min(var(--preview-width), 100%); min-width: 0; max-width: 100%; overflow: hidden; margin: 0 auto; padding: 24px; transition: width .35s ease; container-type: inline-size; background: #FFFFFF; }
 .option-component { min-width: 0; }
 .debug-readout { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; color: var(--muted-foreground); font-family: monospace; font-size: 10px; }
