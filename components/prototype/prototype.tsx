@@ -230,12 +230,22 @@ export function ThreePaneView({ mode, focalPoint, layout = 'breakout', example: 
 
       const next = pane.getBoundingClientRect()
       const deltaX = previous.left - next.left
-      const scaleX = previous.width / next.width
+      const previousWidth = previous.width
+      const nextWidth = next.width
+      const startRightInset = Math.max(0, nextWidth - previousWidth)
 
+      // Move the pane from its previous x-position while animating only the reveal edge.
+      // No scale transform is applied, so screenshots remain rasterised at native scale.
       pane.animate(
         [
-          { transform: `translateX(${deltaX}px) scaleX(${scaleX})`, transformOrigin: 'left top' },
-          { transform: 'translateX(0) scaleX(1)', transformOrigin: 'left top' },
+          {
+            transform: `translateX(${deltaX}px)`,
+            clipPath: `inset(0 ${startRightInset}px 0 0)`,
+          },
+          {
+            transform: 'translateX(0)',
+            clipPath: 'inset(0 0 0 0)',
+          },
         ],
         { duration: 300, easing: 'ease', fill: 'none' },
       )
