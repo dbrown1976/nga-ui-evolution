@@ -299,6 +299,9 @@ button { cursor: pointer; }
   border: 0;
   border-radius: 8px;
 }
+.option-a.option-f-variant .pane-comparison {
+  background: #08112b;
+}
 .option-a .pane-label-title {
   color: #242A2E;
   font-size: 12px;
