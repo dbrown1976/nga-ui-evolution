@@ -311,6 +311,16 @@ button { cursor: pointer; }
 .option-f-variant .option-a .pane-viewport {
   box-shadow: none;
 }
+
+/* Option F diagnostic: keep screenshot clipping geometry constant while pane selection animates. */
+.option-f-variant .option-a .pane-viewport,
+.option-f-variant .option-a .pane:not(.selected) .pane-viewport,
+.option-f-variant .option-a .generation-shot-wrap,
+.option-f-variant .option-a .pane:not(.selected) .generation-shot-wrap,
+.option-f-variant .option-a .generation-shot,
+.option-f-variant .option-a .pane:not(.selected) .generation-shot {
+  border-radius: 4px;
+}
 .option-a .pane-label-title {
   color: #242A2E;
   font-size: 12px;
@@ -359,11 +369,6 @@ button { cursor: pointer; }
   --option-a-fade-inset: 16px;
 }
 
-/* Option F test: keep the inactive-pane fade, but do not animate the mask while panes resize. */
-.option-f-variant .option-a .pane-legacy:not(.selected) .pane-viewport,
-.option-f-variant .option-a .pane-shipped:not(.selected) .pane-viewport {
-  transition: none;
-}
 .option-a .generation-placeholder,
 .option-a .generation-shot-blank {
   background: #E8ECEE;
