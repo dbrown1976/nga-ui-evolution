@@ -317,14 +317,7 @@ function OptionD(props: { mode: PreviewMode; focalPoint: boolean }) {
           aria-expanded={expanded}
           aria-label={expanded ? 'Collapse comparison' : 'Expand comparison'}
         >
-          <span className="option-d-expand-icon" aria-hidden="true">
-            <Maximize2 className="option-d-icon-expand" />
-            <Minimize2 className="option-d-icon-collapse" />
-          </span>
-          <span className="option-d-expand-label" aria-hidden="true">
-            <span className="option-d-label-expand">Expand</span>
-            <span className="option-d-label-collapse">Collapse</span>
-          </span>
+          {expanded ? <Minimize2 aria-hidden="true" /> : <Maximize2 aria-hidden="true" />}
         </button>
       </div>
       <PreviewFrame mode={props.mode}>
