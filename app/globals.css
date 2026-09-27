@@ -221,7 +221,7 @@ button { cursor: pointer; }
   color: #ffffff;
 }
 .option-f-variant .pane-label-meta {
-  color: #d4d8db;
+  color: #b6bbbf;
 }
 .preview-canvas { width: min(var(--preview-width), 100%); min-width: 0; max-width: 100%; overflow: hidden; margin: 0 auto; padding: 24px; transition: width .35s ease; container-type: inline-size; background: #FFFFFF; }
 .option-component { min-width: 0; }
