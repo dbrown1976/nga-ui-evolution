@@ -148,43 +148,10 @@ button { cursor: pointer; }
   gap: 24px;
 }
 .option-d-controls .option-c-expand-control {
-  flex: 0 0 112px;
-  width: 112px;
+  flex: 0 0 30px;
+  width: 30px;
+  padding: 0;
   justify-content: center;
-}
-.option-d-expand-icon,
-.option-d-expand-label {
-  position: relative;
-  display: inline-grid;
-  align-items: center;
-}
-.option-d-expand-icon {
-  width: 14px;
-  height: 14px;
-}
-.option-d-expand-icon svg,
-.option-d-expand-label > span {
-  grid-area: 1 / 1;
-  transition: opacity .18s ease, transform .18s ease;
-}
-.option-d-expand-label {
-  min-width: 48px;
-  text-align: left;
-}
-.option-d-icon-collapse,
-.option-d-label-collapse {
-  opacity: 0;
-  transform: translateY(3px);
-}
-.option-d-variant.is-expanded .option-d-icon-expand,
-.option-d-variant.is-expanded .option-d-label-expand {
-  opacity: 0;
-  transform: translateY(-3px);
-}
-.option-d-variant.is-expanded .option-d-icon-collapse,
-.option-d-variant.is-expanded .option-d-label-collapse {
-  opacity: 1;
-  transform: translateY(0);
 }
 .prototype-option:has(.option-d-variant) .preview-frame-wrap {
   padding-top: 8px;
