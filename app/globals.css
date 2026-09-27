@@ -92,13 +92,14 @@ button { cursor: pointer; }
   overflow: visible;
 }
 .prototype-option:has(.option-c-variant) .preview-frame-wrap {
-  transition: width .35s ease, max-width .35s ease;
-}
-.prototype-option:has(.option-c-variant.is-expanded) .preview-frame-wrap {
-  width: min(1500px, calc(100vw - 40px));
+  width: 100%;
   max-width: none;
   margin-left: 50%;
   transform: translateX(-50%);
+  transition: width .35s ease;
+}
+.prototype-option:has(.option-c-variant.is-expanded) .preview-frame-wrap {
+  width: min(1500px, calc(100vw - 40px));
 }
 .prototype-option:has(.option-c-variant.is-expanded) .preview-canvas {
   width: 100%;
