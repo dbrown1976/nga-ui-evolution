@@ -312,10 +312,11 @@ button { cursor: pointer; }
   box-shadow: none;
 }
 
-/* Option F diagnostic: let pane-viewport be the sole screenshot clipping boundary. */
-.option-f-variant .option-a .generation-shot-wrap {
-  overflow: visible;
+/* Option F diagnostic: isolate the grid animation as a possible flicker source. */
+.option-f-variant .option-a .pane-grid {
+  transition: none;
 }
+
 
 .option-a .pane-label-title {
   color: #242A2E;
