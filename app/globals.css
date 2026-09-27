@@ -183,7 +183,6 @@ button { cursor: pointer; }
 }
 
 /* F uses the current NGA interaction field from the portfolio (#08112b). */
-.option-f-variant .option-d-controls,
 .option-f-variant .preview-frame-wrap,
 .option-f-variant .preview-canvas,
 .option-f-variant .option-c-shell,
@@ -197,23 +196,26 @@ button { cursor: pointer; }
   border-radius: 8px;
   padding: 24px;
 }
+.option-f-variant .option-d-controls {
+  background: #ecf1fc;
+}
 .option-f-variant .option-c-example-nav .example-selector-option {
-  color: #d4d8db;
+  color: #002c42;
 }
 .option-f-variant .option-c-example-nav .example-selector-option:hover {
-  background: rgb(255 255 255 / 8%);
+  background: rgb(0 44 66 / 6%);
 }
 .option-f-variant .option-c-example-nav .example-selector-option.selected {
-  background: #d6dff8;
-  color: #171c20;
+  background: #ffffff;
+  color: #002c42;
 }
 .option-f-variant .option-c-expand-control {
-  border-color: rgb(255 255 255 / 48%);
+  border-color: #c6c6c6;
   background: transparent;
-  color: #ffffff;
+  color: #002c42;
 }
 .option-f-variant .option-c-expand-control:hover {
-  background: rgb(255 255 255 / 8%);
+  background: rgb(0 44 66 / 6%);
 }
 .option-f-variant .pane-label-title {
   color: #ffffff;
