@@ -197,7 +197,7 @@ button { cursor: pointer; }
   display: grid;
   grid-template-columns: 12fr 12fr 76fr;
   gap: 12px;
-  /* The selected 16:10 evidence frame determines the shared strip height. */
+  /* JS derives one stable 16:10 selected-pane height from the grid width. */
   min-height: 0;
   transition: grid-template-columns .3s ease;
   align-items: stretch;
@@ -265,23 +265,18 @@ button { cursor: pointer; }
   line-height: 1.35;
   max-width: 100%;
 }
-/* The selected 16:10 frame sets the row height; collapsed panes stretch to match it. */
+/* One stable shared height prevents vertical reflow while columns animate. */
 .pane-viewport {
   position: relative;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   top: auto;
   left: auto;
   width: 100%;
-  min-height: 0;
+  height: var(--option-a-shot-height);
+  min-height: var(--option-a-shot-height);
+  max-height: var(--option-a-shot-height);
   overflow: hidden;
   background: transparent;
-}
-.pane-grid .pane.selected .pane-viewport {
-  flex: 0 0 auto;
-  aspect-ratio: 16 / 10;
-}
-.pane-grid .pane:not(.selected) .pane-viewport {
-  flex: 1 1 auto;
 }
 .pane-viewport .dummy-ui {
   width: 100%;
