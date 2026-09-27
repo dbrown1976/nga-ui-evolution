@@ -58,14 +58,14 @@ const OPTION_A_EXAMPLE_SHOTS: Record<ExampleId, Record<StateId, string>> = {
     direction: '/images/3-hero-banner-final.png',
   },
   blog: {
-    legacy: '/images/1-blog-legacy.png',
-    shipped: '/images/2-blog-shipped.png',
-    direction: '/images/3-blog-final.png',
+    legacy: '/images/1-blog-content-legacy.png',
+    shipped: '/images/2-blog-content-shipped.png',
+    direction: '/images/3-blog-content-final.png',
   },
   recipe: {
-    legacy: '/images/1-recipe-legacy.png',
-    shipped: '/images/2-recipe-shipped.png',
-    direction: '/images/3-recipe-final.png',
+    legacy: '/images/1-recipe-page-legacy.png',
+    shipped: '/images/2-recipe-page-shipped.png',
+    direction: '/images/3-recipe-page-final.png',
   },
 }
 
