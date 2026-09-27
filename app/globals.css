@@ -312,7 +312,7 @@ button { cursor: pointer; }
   box-shadow: none;
 }
 
-/* Option F diagnostic: isolate the grid animation as a possible flicker source. */
+/* Option F transform-animation prototype: grid snaps to exact 12/12/76 geometry; panes FLIP over 300ms. */
 .option-f-variant .option-a .pane-grid {
   transition: none;
 }
