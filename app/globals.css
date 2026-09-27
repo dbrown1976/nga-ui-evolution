@@ -188,13 +188,6 @@ button { cursor: pointer; }
 .option-a .generation-shot-wrap {
   animation: option-a-example-fade .15s ease;
 }
-/* Scale only the selected evidence image down slightly to reveal more of the source. */
-.option-a .pane.selected .generation-shot {
-  width: 90%;
-  height: 90%;
-  object-fit: cover;
-  object-position: left top;
-}
 @keyframes option-a-example-fade {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -204,8 +197,8 @@ button { cursor: pointer; }
   display: grid;
   grid-template-columns: 12fr 12fr 76fr;
   gap: 12px;
-  /* Shared viewport strip height: 340px ≈ 2:1 hero aspect at expanded (~680px) width */
-  --option-a-shot-height: 600px;
+  /* Revised evidence frames are composed at 16:10 (1440 × 900). */
+  --option-a-shot-height: auto;
   min-height: calc(var(--option-a-shot-height) + 40px);
   transition: grid-template-columns .3s ease;
   align-items: stretch;
@@ -280,9 +273,7 @@ button { cursor: pointer; }
   top: auto;
   left: auto;
   width: 100%;
-  height: var(--option-a-shot-height, 340px);
-  min-height: var(--option-a-shot-height, 340px);
-  max-height: var(--option-a-shot-height, 340px);
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   background: transparent;
 }
