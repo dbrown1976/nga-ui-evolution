@@ -312,15 +312,11 @@ button { cursor: pointer; }
   box-shadow: none;
 }
 
-/* Option F diagnostic: keep screenshot clipping geometry constant while pane selection animates. */
-.option-f-variant .option-a .pane-viewport,
-.option-f-variant .option-a .pane:not(.selected) .pane-viewport,
-.option-f-variant .option-a .generation-shot-wrap,
-.option-f-variant .option-a .pane:not(.selected) .generation-shot-wrap,
-.option-f-variant .option-a .generation-shot,
-.option-f-variant .option-a .pane:not(.selected) .generation-shot {
-  border-radius: 4px;
+/* Option F diagnostic: let pane-viewport be the sole screenshot clipping boundary. */
+.option-f-variant .option-a .generation-shot-wrap {
+  overflow: visible;
 }
+
 .option-a .pane-label-title {
   color: #242A2E;
   font-size: 12px;
