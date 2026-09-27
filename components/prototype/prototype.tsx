@@ -260,7 +260,7 @@ export function ThreePaneView({ mode, focalPoint, layout = 'breakout' }: { mode:
   )
 }
 
-export export function OptionA(props: { mode: PreviewMode; focalPoint: boolean }) {
+export function OptionA(props: { mode: PreviewMode; focalPoint: boolean }) {
   return <ThreePaneView {...props} layout="breakout" />
 }
 
