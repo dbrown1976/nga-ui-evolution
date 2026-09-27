@@ -189,9 +189,11 @@ function CarouselFallback({ selected, setSelected, focalPoint, tabs, renderPane 
 
 type ThreePaneLayout = 'breakout' | 'contained'
 
-export function ThreePaneView({ mode, focalPoint, layout = 'breakout' }: { mode: PreviewMode; focalPoint: boolean; layout?: ThreePaneLayout }) {
+export function ThreePaneView({ mode, focalPoint, layout = 'breakout', example: controlledExample, onExampleChange, showExampleSelector = true }: { mode: PreviewMode; focalPoint: boolean; layout?: ThreePaneLayout; example?: ExampleId; onExampleChange?: (example: ExampleId) => void; showExampleSelector?: boolean }) {
   const [selected, setSelected] = useState<StateId>('direction')
-  const [example, setExample] = useState<ExampleId>('hero')
+  const [internalExample, setInternalExample] = useState<ExampleId>('hero')
+  const example = controlledExample ?? internalExample
+  const setExample = onExampleChange ?? setInternalExample
   const paneGridRef = useRef<HTMLDivElement>(null)
   const [sharedViewportHeight, setSharedViewportHeight] = useState<number | null>(null)
   const mobile = mode !== 'desktop'
@@ -217,7 +219,7 @@ export function ThreePaneView({ mode, focalPoint, layout = 'breakout' }: { mode:
   const renderPane = (state: StateId) => <OptionAExampleShot state={state} example={example} focalPoint={focalPoint} />
   return (
     <div className={cn('option-component', 'option-a', `option-a-${layout}`)}>
-      <OptionAExampleSelector example={example} setExample={setExample} />
+      {showExampleSelector && <OptionAExampleSelector example={example} setExample={setExample} />}
       <div className="option-a-desktop" data-mobile={mobile}>
         <div className="pane-comparison">
         <div
@@ -270,20 +272,30 @@ function OptionB(props: { mode: PreviewMode; focalPoint: boolean }) {
 
 function OptionC(props: { mode: PreviewMode; focalPoint: boolean }) {
   const [expanded, setExpanded] = useState(false)
+  const [example, setExample] = useState<ExampleId>('hero')
 
   return (
-    <div className={cn('option-c-shell', { 'is-expanded': expanded })}>
-      <button
-        type="button"
-        className="option-c-expand-control"
-        onClick={() => setExpanded((value) => !value)}
-        aria-expanded={expanded}
-        aria-label={expanded ? 'Collapse comparison' : 'Expand comparison'}
-      >
-        {expanded ? <Minimize2 aria-hidden="true" /> : <Maximize2 aria-hidden="true" />}
-        <span>{expanded ? 'Collapse' : 'Expand'}</span>
-      </button>
-      <ThreePaneView {...props} layout="contained" />
+    <div className={cn('option-c-variant', { 'is-expanded': expanded })}>
+      <div className="option-c-example-nav">
+        <OptionAExampleSelector example={example} setExample={setExample} />
+      </div>
+      <PreviewFrame mode={props.mode}>
+        <div className="option-c-shell">
+          <div className="option-c-viewer-toolbar">
+            <button
+              type="button"
+              className="option-c-expand-control"
+              onClick={() => setExpanded((value) => !value)}
+              aria-expanded={expanded}
+              aria-label={expanded ? 'Collapse comparison' : 'Expand comparison'}
+            >
+              {expanded ? <Minimize2 aria-hidden="true" /> : <Maximize2 aria-hidden="true" />}
+              <span>{expanded ? 'Collapse' : 'Expand'}</span>
+            </button>
+          </div>
+          <ThreePaneView {...props} layout="contained" example={example} onExampleChange={setExample} showExampleSelector={false} />
+        </div>
+      </PreviewFrame>
     </div>
   )
 }
@@ -295,7 +307,8 @@ export function PrototypePage() {
 }
 
 function PrototypeOption({ id, title, description, render, mode, focalPoint }: { id: string; title: string; description: string; render: (props: { mode: PreviewMode; focalPoint: boolean }) => React.ReactNode; mode: PreviewMode; focalPoint: boolean }) {
-  return <section className="prototype-option"><div className="option-header"><div className="option-title"><span className="option-index">OPTION {id}</span><h2>{title}</h2></div><p>{description}</p></div><PreviewFrame mode={mode}>{render({ mode, focalPoint })}</PreviewFrame></section>
+  const content = render({ mode, focalPoint })
+  return <section className="prototype-option"><div className="option-header"><div className="option-title"><span className="option-index">OPTION {id}</span><h2>{title}</h2></div><p>{description}</p></div>{id === 'C' ? content : <PreviewFrame mode={mode}>{content}</PreviewFrame>}</section>
 }
 
 export default PrototypePage
