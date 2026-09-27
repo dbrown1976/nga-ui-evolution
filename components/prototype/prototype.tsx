@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { ArrowLeft, ArrowRight, Check, ChevronDown, Eye, GripVertical, Image as ImageIcon, Info, MoreHorizontal, Plus, Sparkles, Upload, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -190,7 +190,27 @@ function CarouselFallback({ selected, setSelected, focalPoint, tabs, renderPane 
 export function OptionA({ mode, focalPoint }: { mode: PreviewMode; focalPoint: boolean }) {
   const [selected, setSelected] = useState<StateId>('direction')
   const [example, setExample] = useState<ExampleId>('hero')
+  const paneGridRef = useRef<HTMLDivElement>(null)
+  const [sharedViewportHeight, setSharedViewportHeight] = useState<number | null>(null)
   const mobile = mode !== 'desktop'
+
+  useLayoutEffect(() => {
+    const grid = paneGridRef.current
+    if (!grid || mobile) return
+
+    const updateSharedHeight = () => {
+      const styles = getComputedStyle(grid)
+      const columnGap = parseFloat(styles.columnGap) || 0
+      const availableWidth = grid.clientWidth - columnGap * 2
+      const selectedWidth = availableWidth * 0.76
+      setSharedViewportHeight(selectedWidth * (10 / 16))
+    }
+
+    updateSharedHeight()
+    const observer = new ResizeObserver(updateSharedHeight)
+    observer.observe(grid)
+    return () => observer.disconnect()
+  }, [mobile])
   const carouselTabs = OPTION_A_PANES.map((pane) => ({ id: pane.id, eyebrow: pane.title.slice(0, 2), label: pane.tabLabel.replace(/^\d{2} · /, '') }))
   const renderPane = (state: StateId) => <OptionAExampleShot state={state} example={example} focalPoint={focalPoint} />
   return (
@@ -198,7 +218,13 @@ export function OptionA({ mode, focalPoint }: { mode: PreviewMode; focalPoint: b
       <OptionAExampleSelector example={example} setExample={setExample} />
       <div className="option-a-desktop" data-mobile={mobile}>
         <div className="pane-comparison">
-        <div className="pane-grid" data-selected={selected} data-example={example}>
+        <div
+          ref={paneGridRef}
+          className="pane-grid"
+          data-selected={selected}
+          data-example={example}
+          style={sharedViewportHeight ? { '--option-a-shot-height': `${sharedViewportHeight}px` } as React.CSSProperties : undefined}
+        >
           {OPTION_A_PANES.map((pane) => (
             <button
               key={pane.id}
