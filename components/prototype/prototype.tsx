@@ -227,7 +227,7 @@ export function ThreePaneView({ mode, focalPoint, layout = 'breakout', example: 
           className="pane-grid"
           data-selected={selected}
           data-example={example}
-          style={sharedViewportHeight ? { '--option-a-shot-height': `${sharedViewportHeight}px` } as React.CSSProperties : undefined}
+          style={sharedViewportHeight ? { '--option-a-shot-height': `${sharedViewportHeight + (example === 'recipe' ? 1 : 0)}px` } as React.CSSProperties : undefined}
         >
           {OPTION_A_PANES.map((pane) => (
             <button
