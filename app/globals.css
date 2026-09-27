@@ -358,6 +358,12 @@ button { cursor: pointer; }
 .option-a .pane-shipped:not(.selected):focus-visible .pane-viewport {
   --option-a-fade-inset: 16px;
 }
+
+/* Option F test: keep the inactive-pane fade, but do not animate the mask while panes resize. */
+.option-f-variant .option-a .pane-legacy:not(.selected) .pane-viewport,
+.option-f-variant .option-a .pane-shipped:not(.selected) .pane-viewport {
+  transition: none;
+}
 .option-a .generation-placeholder,
 .option-a .generation-shot-blank {
   background: #E8ECEE;
