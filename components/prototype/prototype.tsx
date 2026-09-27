@@ -39,7 +39,7 @@ export const STATES: { id: StateId; label: string; eyebrow: string; accent: stri
 const OPTION_A_PANES: { id: StateId; title: string; meta: string; metaDetail: string | null; tabLabel: string }[] = [
   { id: 'legacy', title: '01 · Shipped 2018', meta: 'Authoring v1.0', metaDetail: null, tabLabel: '01 · Shipped 2018' },
   { id: 'shipped', title: '02 · Shipped 2026', meta: 'Authoring v2.0', metaDetail: 'Existing CMS shell', tabLabel: '02 · Shipped 2026' },
-  { id: 'direction', title: '03 · Approved direction', meta: 'Authoring workbench', metaDetail: 'Reworked CMS shell', tabLabel: '03 · Approved direction' },
+  { id: 'direction', title: '03 · Designed 2026', meta: 'Full UI redesign', metaDetail: 'Design system applied throughout · Author-centred workspace · Customer-tested direction', tabLabel: '03 · Designed 2026' },
 ]
 
 type ExampleId = 'hero' | 'blog' | 'recipe'
