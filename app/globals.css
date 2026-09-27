@@ -54,31 +54,66 @@ button { cursor: pointer; }
   max-width: none;
 }
 
-/* Option C starts contained and expands the same shared three-pane view in place. */
-.prototype-option:has(.option-c-shell) {
+/* Option C: page-level example navigation sits outside the expandable viewer. */
+.option-c-variant {
+  position: relative;
+}
+.option-c-example-nav {
+  margin-bottom: 20px;
+}
+.option-c-example-nav .example-selector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  gap: 0;
+  margin: 0;
+}
+.option-c-example-nav .example-selector-option {
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #5c5c5c;
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 28px;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+}
+.option-c-example-nav .example-selector-option:hover { background: #f0f0f0; }
+.option-c-example-nav .example-selector-option.selected { background: #dedede; color: #000; font-weight: 500; }
+.option-c-example-nav .example-selector-option:focus { outline: none; }
+.option-c-example-nav .example-selector-option:focus-visible { outline: 2px solid #525252; outline-offset: 2px; }
+
+.prototype-option:has(.option-c-variant) {
   overflow: visible;
 }
-.prototype-option:has(.option-c-shell) .preview-frame-wrap {
+.prototype-option:has(.option-c-variant) .preview-frame-wrap {
   transition: width .35s ease, max-width .35s ease;
 }
-.prototype-option:has(.option-c-shell.is-expanded) .preview-frame-wrap {
+.prototype-option:has(.option-c-variant.is-expanded) .preview-frame-wrap {
   width: min(1500px, calc(100vw - 40px));
   max-width: none;
   margin-left: 50%;
   transform: translateX(-50%);
 }
-.prototype-option:has(.option-c-shell.is-expanded) .preview-canvas {
+.prototype-option:has(.option-c-variant.is-expanded) .preview-canvas {
   width: 100%;
   max-width: none;
 }
 .option-c-shell {
   position: relative;
 }
+.option-c-viewer-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 30px;
+  margin-bottom: 10px;
+}
 .option-c-expand-control {
-  position: absolute;
-  z-index: 10;
-  top: 2px;
-  right: 24px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -92,17 +127,9 @@ button { cursor: pointer; }
   font-size: 12px;
   cursor: pointer;
 }
-.option-c-expand-control:hover {
-  background: #F4F4F4;
-}
-.option-c-expand-control:focus-visible {
-  outline: 2px solid #525252;
-  outline-offset: 2px;
-}
-.option-c-expand-control svg {
-  width: 14px;
-  height: 14px;
-}
+.option-c-expand-control:hover { background: #F4F4F4; }
+.option-c-expand-control:focus-visible { outline: 2px solid #525252; outline-offset: 2px; }
+.option-c-expand-control svg { width: 14px; height: 14px; }
 .preview-canvas { width: min(var(--preview-width), 100%); min-width: 0; max-width: 100%; overflow: hidden; margin: 0 auto; padding: 24px; transition: width .35s ease; container-type: inline-size; background: #FFFFFF; }
 .option-component { min-width: 0; }
 .debug-readout { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; color: var(--muted-foreground); font-family: monospace; font-size: 10px; }
