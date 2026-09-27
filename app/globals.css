@@ -187,7 +187,8 @@ button { cursor: pointer; }
 .option-f-variant .preview-frame-wrap,
 .option-f-variant .preview-canvas,
 .option-f-variant .option-c-shell,
-.option-f-variant .pane-comparison {
+.option-f-variant .pane-comparison,
+.option-f-variant .pane-grid {
   background: #08112b;
 }
 .option-f-variant {
