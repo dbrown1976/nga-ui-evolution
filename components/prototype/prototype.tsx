@@ -189,12 +189,13 @@ function CarouselFallback({ selected, setSelected, focalPoint, tabs, renderPane 
 
 type ThreePaneLayout = 'breakout' | 'contained'
 
-export function ThreePaneView({ mode, focalPoint, layout = 'breakout', example: controlledExample, onExampleChange, showExampleSelector = true }: { mode: PreviewMode; focalPoint: boolean; layout?: ThreePaneLayout; example?: ExampleId; onExampleChange?: (example: ExampleId) => void; showExampleSelector?: boolean }) {
+export function ThreePaneView({ mode, focalPoint, layout = 'breakout', example: controlledExample, onExampleChange, showExampleSelector = true, animatePaneTransforms = false }: { mode: PreviewMode; focalPoint: boolean; layout?: ThreePaneLayout; example?: ExampleId; onExampleChange?: (example: ExampleId) => void; showExampleSelector?: boolean; animatePaneTransforms?: boolean }) {
   const [selected, setSelected] = useState<StateId>('direction')
   const [internalExample, setInternalExample] = useState<ExampleId>('hero')
   const example = controlledExample ?? internalExample
   const setExample = onExampleChange ?? setInternalExample
   const paneGridRef = useRef<HTMLDivElement>(null)
+  const previousPaneRectsRef = useRef<Map<StateId, DOMRect> | null>(null)
   const [sharedViewportHeight, setSharedViewportHeight] = useState<number | null>(null)
   const mobile = mode !== 'desktop'
 
@@ -215,6 +216,47 @@ export function ThreePaneView({ mode, focalPoint, layout = 'breakout', example: 
     observer.observe(grid)
     return () => observer.disconnect()
   }, [mobile])
+
+  useLayoutEffect(() => {
+    if (!animatePaneTransforms || mobile || !previousPaneRectsRef.current || !paneGridRef.current) return
+
+    const previousRects = previousPaneRectsRef.current
+    previousPaneRectsRef.current = null
+
+    paneGridRef.current.querySelectorAll<HTMLElement>('.pane').forEach((pane) => {
+      const id = pane.dataset.paneId as StateId
+      const previous = previousRects.get(id)
+      if (!previous) return
+
+      const next = pane.getBoundingClientRect()
+      const deltaX = previous.left - next.left
+      const scaleX = previous.width / next.width
+
+      pane.animate(
+        [
+          { transform: `translateX(${deltaX}px) scaleX(${scaleX})`, transformOrigin: 'left top' },
+          { transform: 'translateX(0) scaleX(1)', transformOrigin: 'left top' },
+        ],
+        { duration: 300, easing: 'ease', fill: 'none' },
+      )
+    })
+  }, [selected, animatePaneTransforms, mobile])
+
+  const selectPane = (nextSelected: StateId) => {
+    if (nextSelected === selected) return
+
+    if (animatePaneTransforms && !mobile && paneGridRef.current) {
+      previousPaneRectsRef.current = new Map(
+        Array.from(paneGridRef.current.querySelectorAll<HTMLElement>('.pane')).map((pane) => [
+          pane.dataset.paneId as StateId,
+          pane.getBoundingClientRect(),
+        ]),
+      )
+    }
+
+    setSelected(nextSelected)
+  }
+
   const carouselTabs = OPTION_A_PANES.map((pane) => ({ id: pane.id, eyebrow: pane.title.slice(0, 2), label: pane.tabLabel.replace(/^\d{2} · /, '') }))
   const renderPane = (state: StateId) => <OptionAExampleShot state={state} example={example} focalPoint={focalPoint} />
   return (
@@ -234,7 +276,8 @@ export function ThreePaneView({ mode, focalPoint, layout = 'breakout', example: 
               key={pane.id}
               type="button"
               className={cn('pane', `pane-${pane.id}`, { selected: selected === pane.id })}
-              onClick={() => setSelected(pane.id)}
+              data-pane-id={pane.id}
+              onClick={() => selectPane(pane.id)}
               aria-pressed={selected === pane.id}
               aria-label={pane.tabLabel}
             >
@@ -352,7 +395,7 @@ function PortfolioTreatment(props: { mode: PreviewMode; focalPoint: boolean; tre
       </div>
       <PreviewFrame mode={props.mode}>
         <div className="option-c-shell">
-          <ThreePaneView {...props} layout="contained" example={example} onExampleChange={setExample} showExampleSelector={false} />
+          <ThreePaneView {...props} layout="contained" example={example} onExampleChange={setExample} showExampleSelector={false} animatePaneTransforms={props.treatment === 'f'} />
         </div>
       </PreviewFrame>
     </div>
