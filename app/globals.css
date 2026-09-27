@@ -157,6 +157,68 @@ button { cursor: pointer; }
   padding-top: 8px;
   border-radius: 8px;
 }
+
+/* Options E/F: production-context treatments based on the NGA Problem section. */
+.prototype-option:has(.portfolio-treatment) {
+  background: #ecf1fc;
+  padding: 32px;
+  border-radius: 8px;
+}
+.portfolio-treatment .preview-frame-wrap {
+  border: 0;
+  background: transparent;
+  padding-top: 0;
+}
+.portfolio-treatment .preview-canvas {
+  padding: 0;
+  background: transparent;
+}
+.portfolio-treatment .pane-comparison {
+  border-radius: 8px;
+}
+
+/* E keeps the light evidence surface while removing the prototype card. */
+.option-e-variant .pane-comparison {
+  background: #f7f7f7;
+}
+
+/* F uses the current NGA interaction field from the portfolio (#08112b). */
+.option-f-variant .option-d-controls,
+.option-f-variant .preview-frame-wrap,
+.option-f-variant .preview-canvas,
+.option-f-variant .option-c-shell,
+.option-f-variant .pane-comparison {
+  background: #08112b;
+}
+.option-f-variant {
+  background: #08112b;
+  border-radius: 8px;
+  padding: 24px;
+}
+.option-f-variant .option-c-example-nav .example-selector-option {
+  color: #d4d8db;
+}
+.option-f-variant .option-c-example-nav .example-selector-option:hover {
+  background: rgb(255 255 255 / 8%);
+}
+.option-f-variant .option-c-example-nav .example-selector-option.selected {
+  background: #d6dff8;
+  color: #171c20;
+}
+.option-f-variant .option-c-expand-control {
+  border-color: rgb(255 255 255 / 48%);
+  background: transparent;
+  color: #ffffff;
+}
+.option-f-variant .option-c-expand-control:hover {
+  background: rgb(255 255 255 / 8%);
+}
+.option-f-variant .pane-label-title {
+  color: #ffffff;
+}
+.option-f-variant .pane-label-meta {
+  color: #d4d8db;
+}
 .preview-canvas { width: min(var(--preview-width), 100%); min-width: 0; max-width: 100%; overflow: hidden; margin: 0 auto; padding: 24px; transition: width .35s ease; container-type: inline-size; background: #FFFFFF; }
 .option-component { min-width: 0; }
 .debug-readout { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; color: var(--muted-foreground); font-family: monospace; font-size: 10px; }
