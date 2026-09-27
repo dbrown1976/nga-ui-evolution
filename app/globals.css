@@ -197,8 +197,8 @@ button { cursor: pointer; }
   display: grid;
   grid-template-columns: 12fr 12fr 76fr;
   gap: 12px;
-  /* Revised evidence frames are composed at 16:10 (1440 × 900). */
-  --option-a-shot-height: auto;
+  /* Shared viewport strip height: all three generations stay equal-height while widths expand/collapse. */
+  --option-a-shot-height: 600px;
   min-height: calc(var(--option-a-shot-height) + 40px);
   transition: grid-template-columns .3s ease;
   align-items: stretch;
@@ -273,7 +273,9 @@ button { cursor: pointer; }
   top: auto;
   left: auto;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: var(--option-a-shot-height, 600px);
+  min-height: var(--option-a-shot-height, 600px);
+  max-height: var(--option-a-shot-height, 600px);
   overflow: hidden;
   background: transparent;
 }
