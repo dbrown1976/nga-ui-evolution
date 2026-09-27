@@ -247,7 +247,7 @@ export function ThreePaneView({ mode, focalPoint, layout = 'breakout', example: 
             clipPath: 'inset(0 0 0 0)',
           },
         ],
-        { duration: 300, easing: 'ease', fill: 'none' },
+        { duration: 350, easing: 'ease', fill: 'none' },
       )
     })
   }, [selected, animatePaneTransforms, mobile])
